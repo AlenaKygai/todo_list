@@ -6,11 +6,17 @@ const initialValues ={
   bodyTask: '',
 }
 
-const ToDoForm = (props) => {
+const ToDoForm = ({addTask,onFilter}) => {
   const onSubmit = (values,formikBag) =>{
+    addTask({
+      id:new Date().getTime(),
+      bodyTask:values.bodyTask,
+      statusTask:true,
+    });
+    console.log('add task ');
     formikBag.resetForm();
-    // console.log(formikBag);
   }
+  
   return(
     <Formik 
       initialValues={initialValues}
@@ -23,7 +29,7 @@ const ToDoForm = (props) => {
               <Field type="text" name="bodyTask" placeholder="Enter data for task" />
               <ErrorMessage name="bodyTask" />
               <input type="submit" value='Add' />
-              <Field as="select" name="statusTask">
+              <Field as="select" name="statusTask" onChange={(event)=>onFilter(event.target.value)}>
                 <option value="all">All</option>
                 <option value="active">Active</option>
                 <option value="done">Done</option>
