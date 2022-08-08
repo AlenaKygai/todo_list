@@ -3,10 +3,16 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { TASK_SCHEMS } from "utils/schemaValidations";
 import styles from './ToDoForm.module.scss';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
+import SelectComponent from "components/Select";
 
 const initialValues ={
   bodyTask: '',
 }
+const options = [
+  { value: 'all', label: 'All' },
+  { value: 'active', label: 'Active' },
+  { value: 'done', label: 'Done' }
+]
 
 const ToDoForm = ({addTask,onFilter}) => {
   const onSubmit = (values,formikBag) =>{
@@ -35,16 +41,12 @@ const ToDoForm = ({addTask,onFilter}) => {
                 <AddBoxRoundedIcon className={styles.buttonIcon}/>
               </button>
               </div>
-              <Field 
-                as="select" 
-                name="statusTask" 
-                onChange={(event)=>onFilter(event.target.value)}
-                className={styles.selectForm}
-              >
-                <option value="all">All</option>
-                <option value="active">Active</option>
-                <option value="done">Done</option>
-               </Field>
+              <SelectComponent
+              name="statusTask" 
+              options={options}
+              onChange={({value})=>{onFilter(value)}}
+              defaultValue={options[0]}
+              />
             </Form>
           )
         }
