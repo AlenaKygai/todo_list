@@ -1,6 +1,7 @@
 import React from "react";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { TASK_SCHEMS } from "utils/schemaValidations";
+import cx from 'classnames';
 import styles from './ToDoForm.module.scss';
 import AddBoxRoundedIcon from '@mui/icons-material/AddBoxRounded';
 import SelectComponent from "components/Select";
@@ -34,9 +35,18 @@ const ToDoForm = ({addTask,onFilter}) => {
         (formikProps)=>{
           return(
             <Form className={styles.toDoForm}>
-              <div className={styles.inputBlockForm}>
-              <Field type="text" name="bodyTask" placeholder="Enter data for task" className={styles.inputForm}/>
-              <ErrorMessage name="bodyTask" />
+              <div 
+              className={cx(styles.inputBlockForm,{
+                  [styles.inputBlockError]:formikProps.errors.bodyTask
+                })}
+              >
+              <Field 
+                type="text" 
+                name="bodyTask" 
+                placeholder="Enter data for task" 
+                className={styles.inputForm}
+              />
+              <ErrorMessage name="bodyTask" component='div' className={styles.inputError}/>
               <button type="submit"   className={styles.buttonForm}>
                 <AddBoxRoundedIcon className={styles.buttonIcon}/>
               </button>
